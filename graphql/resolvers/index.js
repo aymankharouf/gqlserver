@@ -1,12 +1,13 @@
-const postResolver = require('./posts')
-const userResolver = require('./users')
+const postResolvers = require('./posts')
+const userResolvers = require('./users')
 
 const rootResolvers = {
   Query: {
-    ...postResolver.Query
+    ...postResolvers.Query
   },
   Mutation: {
-    ...userResolver.Mutation
+    ...userResolvers.Mutation,
+    ...postResolvers.Mutation
   }
 }
 

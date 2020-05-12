@@ -4,7 +4,7 @@ const { UserInputError } = require('apollo-server-express')
 
 const User = require('../../models/user')
 const { JWT_KEY } = require('../../config')
-const { validateRegisterInputs, validateLoginInput } = require('../../validators')
+const { validateRegisterInputs, validateLoginInput } = require('./validators')
 
 const generateToken = user => jwt.sign({
   id: user._id,
