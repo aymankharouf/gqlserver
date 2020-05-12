@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server-express')
+const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
 const Post = require('../../models/post')
 const authCheck = require('./auth-check')
@@ -53,6 +53,59 @@ const postResolvers = {
         }
       } catch (err) {
         throw new Error(err)
+      }
+    },
+    createComment: async (parent, args, context) => {
+      const user = authCheck(context)
+      const post = await Post.findById(args.postId)
+      if (args.body.trim() === '') {
+        throw new UserInputError('Empty comment')
+      }
+      if (post) {
+        post.comments.unshift({
+          body: args.body,
+          username: user.username,
+          createdAt: new Date().toISOString()
+        })
+        await post.save()
+        return post
+      } else {
+        throw new UserInputError('Post not found')
+      }
+    },
+    deleteComment: async (parent, args, context) => {
+      const user = authCheck(context)
+      const post = await Post.findById(args.postId)
+      if (post) {
+        const commentIndex = post.comments.findIndex(c => c.id === args.commentId)
+        if (post.comments[commentIndex].username === user.username) {
+          post.comments.splice(commentIndex, 1)
+          await post.save()
+          return post
+        } else {
+          throw new AuthenticationError('Action not allowed')
+        }
+      } else {
+        throw new UserInputError('Post not found')
+      }
+    },
+    likePost: async (parent, args, context) => {
+      const user = authCheck(context)
+      const post = await Post.findById(args.postId)
+      if (post) {
+        const found = post.likes.findIndex(l => l.username === user.username)
+        if (found > -1) {
+          post.likes.splice(found, 1)
+        } else {
+          post.likes.push({
+            username: user.username,
+            createdAt: new Date().toISOString()
+          })
+        }
+        await post.save()
+        return post
+      } else {
+        throw new UserInputError('Post not found')
       }
     }
   }
