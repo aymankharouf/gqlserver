@@ -39,6 +39,9 @@ const postResolvers = {
         createdAt: new Date().toISOString()
       })
       const post = await newPost.save()
+      conext.pubsub.publish('NEW_POST', {
+        newPost: post
+      })
       return post
     },
     deletePost: async (parent, args, context) => {
@@ -107,6 +110,11 @@ const postResolvers = {
       } else {
         throw new UserInputError('Post not found')
       }
+    }
+  },
+  Subscription: {
+    newPost: {
+      subscribe: (parent, args, context) => context.pubsub.asyncIterator('NEW_POST')
     }
   }
 };
