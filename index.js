@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const { MONGODB } = require('./config')
 const typeDefs = require('./graphql/typeDefs')
 const resolvers = require('./graphql/resolvers')
-const PORT = 4000;
+const PORT = 5000;
 const pubsub = new PubSub()
 
 const server = new ApolloServer({ 

@@ -36,8 +36,8 @@ const typeDefs = gql`
     email: String!
   }
   type Query {
-    getPosts: [Post]
-    getPost(id: ID!): Post
+    posts: [Post]
+    post(id: ID!): Post
   }
   type Mutation {
     register(registerInput: RegisterInput): User!

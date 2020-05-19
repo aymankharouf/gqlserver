@@ -5,7 +5,7 @@ const authCheck = require('./auth-check')
 
 const postResolvers = {
   Query: {
-    getPosts: async () => {
+    posts: async () => {
       try {
         const posts = await Post.find().sort({createdAt: -1})
         return posts
@@ -13,7 +13,7 @@ const postResolvers = {
         throw new Error(err)
       }
     },
-    getPost: async (parent, args) => {
+    post: async (parent, args) => {
       try{
         if (!args.id.match(/^[0-9a-fA-F]{24}$/)) {
           throw new Error('Invalid ID');
@@ -31,6 +31,9 @@ const postResolvers = {
   },
   Mutation: {
     createPost: async (parent, args, context) => {
+      if (args.body.trim() === '') {
+        throw new Error('Post body must be not empty')
+      }
       const user = authCheck(context)
       const newPost = new Post({
         body: args.body,
