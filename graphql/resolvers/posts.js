@@ -42,7 +42,7 @@ const postResolvers = {
         createdAt: new Date().toISOString()
       })
       const post = await newPost.save()
-      conext.pubsub.publish('NEW_POST', {
+      context.pubsub.publish('NEW_POST', {
         newPost: post
       })
       return post
