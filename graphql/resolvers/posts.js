@@ -1,5 +1,4 @@
 const { AuthenticationError, UserInputError } = require('apollo-server')
-
 const Post = require('../../models/post')
 const authCheck = require('./auth-check')
 
@@ -42,9 +41,6 @@ const postResolvers = {
         createdAt: new Date().toISOString()
       })
       const post = await newPost.save()
-      context.pubsub.publish('NEW_POST', {
-        newPost: post
-      })
       return post
     },
     deletePost: async (parent, args, context) => {
@@ -115,11 +111,6 @@ const postResolvers = {
       }
     }
   },
-  Subscription: {
-    newPost: {
-      subscribe: (parent, args, context) => context.pubsub.asyncIterator('NEW_POST')
-    }
-  }
 };
 
 module.exports = postResolvers
