@@ -2,51 +2,48 @@ const { gql } = require('apollo-server');
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
-  type Post {
+  type Notification {
     id: ID!
-    body: String!
-    username: String!
-    createdAt: String
-    comments: [Comment]!
-    likes: [Like]!
-    likesCount: Int!
-  }
-  type Comment {
-    id: ID!
-    body: String!
-    username: String!
+    title: String!
+    message: String!
+    status: String!
     createdAt: String!
-  }
-  type Like {
-    id: ID!
-    username: String!
-    createdAt: String!
+    fromUser: ID!
+    toUser: ID!
   }
   type User {
     id: ID!
-    email: String!
+    mobile: String!
     token: String!
     username: String!
     createdAt: String!
+  }
+  type Category {
+    id: ID!
+    name: String!
+    parentId: ID
+    ordering: Int
+    isLeaf: Boolean!
   }
   input RegisterInput {
     username: String!
     password: String!
     confirmPassword: String!
-    email: String!
+    mobile: String!
   }
   type Query {
-    posts: [Post]
-    post(id: ID!): Post
+    notifications(toUser: ID!): [Notification]
+    notification(id: ID!): Notification
+    categories: [Category]
+    category(id: ID!): Category
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
-    login(username: String!, password: String!): User!
-    createPost(body: String!): Post!
-    deletePost(id: ID!): String!
-    createComment(postId: ID!, body: String!): Post!
-    deleteComment(postId: ID!, commentId: ID!): Post!
-    likePost(postId: ID!): Post!
+    login(mobile: String!, password: String!): User!
+    createNotification(title: String!, message: String!, toUser: ID!): Notification!
+    deleteNotification(id: ID!): String!
+    createCategory(name: String!, ordering: Int!, isLeaf: Boolean!): Category!
+    deleteCategory(id: ID!): String!
   }
 `;
 

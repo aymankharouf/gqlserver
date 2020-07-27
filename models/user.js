@@ -9,14 +9,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  email:{
+  mobile:{
     type: String,
     required: true
   },
   createdAt: {
     type: Date,
     required: true
-  }
+  },
+  notifications: [
+    {
+      id: String,
+      title: String,
+      message: String,
+      status: String,
+      time: String
+    }
+  ],
 })
 
 module.exports = mongoose.model('User', userSchema)
+

@@ -1,16 +1,16 @@
-const postResolvers = require('./posts')
+const notificationResolvers = require('./notifications')
 const userResolvers = require('./users')
+const categoryResolvers = require('./categories')
 
 const rootResolvers = {
-  Post: {
-    likesCount: parent => parent.likes.length
-  },
   Query: {
-    ...postResolvers.Query
+    ...notificationResolvers.Query,
+    ...categoryResolvers.Query
   },
   Mutation: {
     ...userResolvers.Mutation,
-    ...postResolvers.Mutation
+    ...notificationResolvers.Mutation,
+    ...categoryResolvers.Mutation
   }
 }
 
