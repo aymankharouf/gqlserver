@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-  username: {
+  userName: {
     type: String,
     required: true
   },
@@ -17,15 +17,6 @@ const userSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  notifications: [
-    {
-      id: String,
-      title: String,
-      message: String,
-      status: String,
-      time: String
-    }
-  ],
 })
 
 module.exports = mongoose.model('User', userSchema)

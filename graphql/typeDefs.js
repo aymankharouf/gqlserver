@@ -15,7 +15,7 @@ const typeDefs = gql`
     id: ID!
     mobile: String!
     token: String!
-    username: String!
+    userName: String!
     createdAt: String!
   }
   type Category {
@@ -26,10 +26,10 @@ const typeDefs = gql`
     isLeaf: Boolean!
   }
   input RegisterInput {
-    username: String!
+    userName: String!
+    mobile: String!
     password: String!
     confirmPassword: String!
-    mobile: String!
   }
   type Query {
     notifications(toUser: ID!): [Notification]
