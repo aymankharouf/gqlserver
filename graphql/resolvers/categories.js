@@ -37,11 +37,17 @@ const categoryResolvers = {
       }
       //const user = authCheck(context)
       //if (user) {
+        if (args.parentId) {
+          const parentCategory = await Category.findById(args.parentId)
+          parentCategory.isLeaf = false
+          await parentCategory.save()
+        } 
         const newCategory = new Category({
+          parentId: args.parentId,
           name: args.name,
           ordering: args.ordering,
-          isLeaf: args.isLeaf
-        })  
+          isLeaf: true
+        })    
       //}
       const category = await newCategory.save()
       return category

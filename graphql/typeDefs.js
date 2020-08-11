@@ -42,7 +42,7 @@ const typeDefs = gql`
     login(mobile: String!, password: String!): User!
     createNotification(title: String!, message: String!, toUser: ID!): Notification!
     deleteNotification(id: ID!): String!
-    createCategory(name: String!, ordering: Int!, isLeaf: Boolean!): Category!
+    createCategory(parentId: ID, name: String!, ordering: Int!): Category!
     deleteCategory(id: ID!): String!
   }
 `;
